@@ -26,7 +26,7 @@ class Search extends Component {
 
   handleFetch = (url) => {
     let URL = `https://comicvine.gamespot.com/api/search/?api_key=5aead445d58a27ad5910cad15ecaec148cc20127&format=json&sort=name:asc&resources=${this.state.resource}&query=${this.state.query}&field_list=name,deck,image`;
-    fetch(`${BACKEND_URL}/?${URL}`)
+    fetch(`${BACKEND_URL}/comics?${URL}`)
       .then(res => res.json())
       .then(data => this.setState({search_results: data.results}))
   }
