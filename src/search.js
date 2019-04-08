@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import cors from 'cors';
+import Axios from 'axios';
 
 class Search extends Component {
   state = {
     resource: "character",
     query: "wolverine",
     field_list: [],
-    field_string: ""
+    field_string: "name,deck,image",
+    search_results: [],
   }
 
   handlechange(e){
@@ -19,12 +22,15 @@ class Search extends Component {
     this.setState({resource: e.target.value});
   }
 
-  handleFieldSelect(e){
-    let fields  = [ ...this.state.field_list ];
-    console.log(fields)
-    if(e.target.checked) fields.push(`${e.target.value},`);
-    if(!e.target.checked) fields.splice(fields.indexOf(e.target.value), 1);
-    this.setState({field_list: fields});
+  handleFetch = (url) => {
+    let URL = `https://comicvine.gamespot.com/api/search/?api_key=5aead445d58a27ad5910cad15ecaec148cc20127&format=json&sort=name:asc&resources=${this.state.resource}&query=${this.state.query}&field_list=name,deck,image`;
+    fetch(`http://localhost:3000/?${URL}`)
+      .then(res => res.json())
+      .then(data => this.setState({search_results: data.results}))
+  }
+
+  resultsHandler = () => {
+
   }
 
   render() {
@@ -46,31 +52,36 @@ class Search extends Component {
             cols="50"
             onChange={(e) => this.handlechange(e)}
             /></li>
-          <li>Refine By: <form>
-            <input type="checkbox" value="name" onChange={e => this.handleFieldSelect(e)} checked={null}/>Name<br />
-            <input type="checkbox" value="description" onChange={e => this.handleFieldSelect(e)} checked={null}/>Long Description<br />
-            <input type="checkbox" value="deck" onChange={e => this.handleFieldSelect(e)} checked={null}/>Short Description (Deck)<br />
-          </form></li>
         </UlStyled>
         <h3>WHEN YOU'VE SELECTED YOUR SEARCH PARAMETERS, CLICK THE LINK BELOW</h3>
         <URLDiv>
           <PStyled>
-            <StyledLink target="_blank"
-              href={
-              `https://comicvine.gamespot.com/api/search/?api_key=5aead445d58a27ad5910cad15ecaec148cc20127&format=json&sort=name:asc&resources=${this.state.resource}&query=${this.state.query}&field_list=${this.state.field_list.join("")}`}
-            >Search for Comics</StyledLink>
-            <br />
-            (opens in new tab)
+            <button
+              onClick={this.handleFetch}
+            >Search for Comics</button>
           </PStyled>
         </URLDiv>
-        <br/>
-        <br/>
-        <br/>
+        <div><h3>Results:</h3></div>
+        {this.state.search_results.map( (obj) => 
+          <ResultsDivS>
+            <UlStyled>
+              <li><img src={obj.image.icon_url} alt="icon"/></li>
+              <li>Name: {obj.name}</li>
+              <li>Description: {obj.deck}</li>
+            </UlStyled>
+          </ResultsDivS>
+        )}
         </header>
       </div>
     );
   }
 }
+
+const ResultsDivS = styled.div`
+  margin-right: 25px;
+  align-items: left !important;
+  justify-content: left !important;
+`
 
 const StyledLink = styled.a`
   color: white;
