@@ -55,7 +55,7 @@ class Search extends Component {
             onChange={(e) => this.handlechange(e)}
             /></li>
         </UlStyled>
-        <h3>WHEN YOU'VE SELECTED YOUR SEARCH PARAMETERS, CLICK THE LINK BELOW</h3>
+        <h3>WHEN YOU'VE CHOSEN YOUR SEARCH PARAMETERS, CLICK THE BUTTON BELOW</h3>
         <URLDiv>
           <PStyled>
             <button
