@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import cors from 'cors';
 import Axios from 'axios';
 
-const { BACKEND_URL } = process.env
+const { REACT_APP_BACKEND_URL } = process.env
 
 class Search extends Component {
   state = {
@@ -26,7 +26,7 @@ class Search extends Component {
 
   handleFetch = (url) => {
     let URL = `https://comicvine.gamespot.com/api/search/?api_key=5aead445d58a27ad5910cad15ecaec148cc20127&format=json&sort=name:asc&resources=${this.state.resource}&query=${this.state.query}&field_list=name,deck,image`;
-    fetch(`${BACKEND_URL}/comics?https://comicvine.gamespot.com/api/search/?api_key=5aead445d58a27ad5910cad15ecaec148cc20127&format=json&sort=name:asc&resources=${this.state.resource}&query=${this.state.query}&field_list=name,deck,image`)
+    fetch(`${REACT_APP_BACKEND_URL}/comics?https://comicvine.gamespot.com/api/search/?api_key=5aead445d58a27ad5910cad15ecaec148cc20127&format=json&sort=name:asc&resources=${this.state.resource}&query=${this.state.query}&field_list=name,deck,image`)
       .then(res => res.json())
       .then(data => this.setState({search_results: data.results}))
   }
