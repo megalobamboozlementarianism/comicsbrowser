@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import cors from 'cors';
 import Axios from 'axios';
 
+const { BACKEND_URL } = process.env
+
 class Search extends Component {
   state = {
     resource: "character",
@@ -24,7 +26,7 @@ class Search extends Component {
 
   handleFetch = (url) => {
     let URL = `https://comicvine.gamespot.com/api/search/?api_key=5aead445d58a27ad5910cad15ecaec148cc20127&format=json&sort=name:asc&resources=${this.state.resource}&query=${this.state.query}&field_list=name,deck,image`;
-    fetch(`http://localhost:3000/?${URL}`)
+    fetch(`${BACKEND_URL}/?${URL}`)
       .then(res => res.json())
       .then(data => this.setState({search_results: data.results}))
   }
